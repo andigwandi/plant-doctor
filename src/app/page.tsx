@@ -38,8 +38,12 @@ const Home: React.FC = () => {
                     try {
                         const data = JSON.parse(xhr.responseText);
                         setPlantInfo(data);
-                    } catch (e) {
-                        setError(e.message || "Failed to parse response from server.");
+                    } catch (e: unknown) {
+                        if (e instanceof Error) {
+                            setError(e.message || "Failed to parse response from server.");
+                        } else {
+                            setError("Failed to parse response from server.");
+                        }
                     }
                 } else {
                     setError(`HTTP error! Status: ${xhr.status}`);
@@ -53,9 +57,13 @@ const Home: React.FC = () => {
 
             xhr.send(formData);
 
-        } catch (e) {
+        } catch (e: unknown) {
             console.error("Error uploading image:", e);
-            setError(e.message || "An error occurred while processing the image.");
+            if (e instanceof Error) {
+                setError(e.message || "An error occurred while processing the image.");
+            } else {
+                setError("Failed to upload image.");
+            }
             setLoading(false);
         }
     };

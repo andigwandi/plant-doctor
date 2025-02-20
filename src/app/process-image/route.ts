@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
           line = line.replace('*','');
         }
         if (line.includes(':')) {
-          const [key, value] = line.split(':').map(s => s.trim());
+          const [key, value] = line.split(':').map((s: string) => s.trim());
           
           plantInfo[key] = value;
         }
@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
         care_instructions: "Not found"
       }, { status: 200 });
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error processing image:', error);
     return NextResponse.json({ error: error.message || 'Internal Server Error' }, { status: 500 });
   }
