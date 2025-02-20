@@ -90,6 +90,11 @@ export async function POST(req: NextRequest) {
   } catch (error: unknown) {
     console.error('Error processing image:', error);
     const errorMessage = error instanceof Error ? error.message : 'Internal Server Error';
-    return NextResponse.json({ error: errorMessage }, { status: 500 });
+    interface CustomError extends Error {
+      status?: number;
+    }
+
+    const status = error instanceof Error && 'status' in error ? (error as CustomError).status : 500;
+    return NextResponse.json({ error: errorMessage }, { status });
   }
 }

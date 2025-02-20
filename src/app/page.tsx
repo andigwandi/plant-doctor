@@ -68,33 +68,38 @@ const Home: React.FC = () => {
     };
 
     return (
-        <div className="container mx-auto p-4 md:mx-auto md:p-8 md:w-1/2 w-2 border border-gray-200 rounded-lg">
-            <Head>
-                <title>The Plant Doctor</title>
-                <meta name="description" content="Identify plants from images" />
-            </Head>
+        <div className="bg-gradient-to-br from-green-100 to-green-50 py-8 min-h-screen">
+            <div className="container mx-auto p-4 md:p-8 md:w-2/3 lg:w-1/2 rounded-lg shadow-md bg-white">
+                <Head>
+                    <title>The Plant Doctor</title>
+                    <meta name="description" content="Identify plants from images" />
+                </Head>
 
-            <h1 className="text-3xl font-bold text-center">Plant Identifier</h1>
-            <ImageUploader onImageUpload={handleImageUpload} />
+                <h1 className="text-3xl font-bold text-center text-green-700 mb-4">My Plant Doctor</h1>
+                <ImageUploader onImageUpload={handleImageUpload} />
 
-            {error && <div className="text-red-500 mt-4">{error}</div>}
+                {error && <div className="text-red-500 mt-4 text-center">{error}</div>}
 
-            {loading && (
-                <div className="mt-4 mx-auto text-center">
-                    <p>Processing image...</p>
-                    <p>Uploading... {uploadProgress}%</p>
-                    <progress value={uploadProgress} max="100" />
-                </div>
-            )}
+                {loading && (
+                    <div className="mt-4 mx-auto text-center">
+                        <p className="text-gray-700">Processing image...</p>
+                        <p className="text-sm text-gray-500">Uploading... {uploadProgress}%</p>
+                        <progress value={uploadProgress} max="100" className="w-full h-2 rounded-full bg-gray-200 accent-green-500" />
+                    </div>
+                )}
 
-            {plantInfo && (
-                <div className="mt-4 text-center">
-                    <h2 className="text-xl font-semibold mb-2">Plant Details:</h2>
-                    {Object.entries(plantInfo).map(([key, value]) => (
-                        <p key={key}><strong>{key}:</strong> {value}</p>
-                    ))}
-                </div>
-            )}
+                {plantInfo && (
+                    <div className="mt-6">
+                        <h2 className="text-xl font-semibold text-green-600 mb-3 text-center">Plant Details:</h2>
+                        {Object.entries(plantInfo).map(([key, value]) => (
+                            <div key={key} className="mb-2">
+                                <strong className="text-gray-700">{key}:</strong>
+                                <p className="text-gray-600">{value}</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
