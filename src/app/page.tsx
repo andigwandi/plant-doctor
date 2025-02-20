@@ -2,7 +2,6 @@
 import Head from 'next/head';
 import { useState } from 'react';
 import ImageUploader from '@/components/ImageUploader';
-import { ExecException, ExecOptions } from 'child_process';
 
 interface PlantDetails {
     [key: string]: string;
