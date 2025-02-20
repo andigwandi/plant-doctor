@@ -2,6 +2,7 @@
 import Head from 'next/head';
 import { useState } from 'react';
 import ImageUploader from '@/components/ImageUploader';
+import { ExecException, ExecOptions } from 'child_process';
 
 interface PlantDetails {
     [key: string]: string;
@@ -38,7 +39,7 @@ const Home: React.FC = () => {
                         const data = JSON.parse(xhr.responseText);
                         setPlantInfo(data);
                     } catch (e) {
-                        setError("Failed to parse response from server.");
+                        setError(e.message || "Failed to parse response from server.");
                     }
                 } else {
                     setError(`HTTP error! Status: ${xhr.status}`);
@@ -52,7 +53,7 @@ const Home: React.FC = () => {
 
             xhr.send(formData);
 
-        } catch (e: any) {
+        } catch (e) {
             console.error("Error uploading image:", e);
             setError(e.message || "An error occurred while processing the image.");
             setLoading(false);
@@ -62,7 +63,7 @@ const Home: React.FC = () => {
     return (
         <div className="container mx-auto p-4 md:mx-auto md:p-8 md:w-1/2 w-2 border border-gray-200 rounded-lg">
             <Head>
-                <title>The Plant Identifier</title>
+                <title>The Plant Doctor</title>
                 <meta name="description" content="Identify plants from images" />
             </Head>
 
