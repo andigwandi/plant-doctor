@@ -58,23 +58,27 @@ export async function POST(req: NextRequest) {
 
     try {
       // PARSING STARTS HERE
-    const plantInfo: { [key: string]: string } = {};
-    const lines = responseText.split('\n');
+      const plantInfo: { [key: string]: string } = {};
+      const lines = responseText.split('\n');
 
       for (let line of lines) {
-        if(line.includes('*')){
-          line = line.replace('*','');
+        if (line.includes('*')) {
+          line = line.replace('*', '');
         }
         if (line.includes(':')) {
           const [key, value] = line.split(':').map((s: string) => s.trim());
-          
+
           plantInfo[key] = value;
         }
       }
 
       return NextResponse.json(plantInfo, { status: 200 });
-    } catch (e) {
-      console.error("Failed to parse Gemini response:", responseText);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.error(e.message || "Failed to parse response from server.");
+      } else {
+        console.error("Failed to parse Gemini response:", responseText);
+      }
       return NextResponse.json({
         common_name: "Error parsing details.",
         scientific_name: "Not found",
@@ -85,6 +89,7 @@ export async function POST(req: NextRequest) {
     }
   } catch (error: unknown) {
     console.error('Error processing image:', error);
-    return NextResponse.json({ error: error.message || 'Internal Server Error' }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Internal Server Error';
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
