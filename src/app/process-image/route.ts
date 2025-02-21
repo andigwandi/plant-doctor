@@ -52,14 +52,19 @@ export async function POST(req: NextRequest) {
       console.error("Gemini API Error:", response.status, response.statusText, errorBody);
       throw new Error(`Gemini API Error: ${response.status} ${response.statusText}`);
     }
-
     const data = await response.json();
+    
+    console.log('Data:', data.toString());
+
     const responseText = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
     try {
       // PARSING STARTS HERE
       const plantInfo: { [key: string]: string } = {};
       const lines = responseText.split('\n');
+
+      console.log('Response:', responseText);
+
 
       for (let line of lines) {
         if (line.includes('*')) {
