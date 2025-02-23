@@ -107,7 +107,7 @@ const Home: React.FC = () => {
     };
 
     return (
-        <div className="bg-gradient-to-br from-green-100 to-green-50 py-8 min-h-screen">
+        <div className="bg-gradient-to-br from-blue-100 to-blue-50 py-8 min-h-screen">
             <div className="container mx-auto p-4 md:p-8 md:w-2/3 lg:w-1/2 rounded-lg shadow-md bg-white">
                 <Head>
                     <title>The Plant Doctor</title>
@@ -115,6 +115,7 @@ const Home: React.FC = () => {
                 </Head>
 
                 <h1 className="text-3xl font-bold text-center text-green-700 mb-4">My Plant Doctor</h1>
+                <div className="mb-10 mx-auto text-center text-gray-600">Upload an image of a plant to get details about it.</div>
                 <ImageUploader onImageUpload={handleImageUpload} />
 
                 {error && <div className="text-red-500 mt-4 text-center">{error}</div>}
@@ -138,20 +139,20 @@ const Home: React.FC = () => {
                 {plantInfo && (
                     <div className="mt-6">
                         <h2 className="text-xl font-semibold text-green-600 mb-3 text-center">Plant Details:</h2>
-                        {plantInfo.common_name && <p><strong className="text-gray-700">Common Name:</strong> {plantInfo.common_name}</p>}
-                        {plantInfo.scientific_name && <p><strong className="text-gray-700">Scientific Name:</strong> {plantInfo.scientific_name}</p>}
-                        {plantInfo.health_status && <p><strong className="text-gray-700">Health Status:</strong> {plantInfo.health_status}</p>}
+                        {plantInfo.common_name && <p><strong className="text-gray-700 mb-3 ">Common Name:</strong> {plantInfo.common_name}</p>}
+                        {plantInfo.scientific_name && <p><strong className="text-gray-700 mb-3 ">Scientific Name:</strong> {plantInfo.scientific_name}</p>}
+                        {plantInfo.health_status && <p><strong className="text-gray-700 mb-3 ">Health Status:</strong> {plantInfo.health_status}</p>}
 
                         {plantInfo.trivia && (
                             <div>
-                                <strong className="text-gray-700">Trivia:</strong>
+                                <strong className="text-gray-700 mb-3 ">Trivia:</strong>
                                 {renderTrivia(plantInfo.trivia)}
                             </div>
                         )}
 
                         {plantInfo.care_instructions && (
                             <div>
-                                <strong className="text-gray-700">Care Instructions:</strong>
+                                <strong className="text-gray-700 mb-3 ">Care Instructions:</strong>
                                 {renderPlantInstructions(plantInfo.care_instructions)}
                             </div>
                         )}

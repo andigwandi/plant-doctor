@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# The Plant Doctor
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This project is a web application built with Next.js that allows users to identify plants from images. It uses the Gemini API to analyze uploaded images and provide details about the plant, including its common name, scientific name, trivia, health status, and care instructions.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+-   **Image Upload:** Users can upload images of plants to be identified.
+-   **Plant Identification:** Utilizes the Gemini API to analyze the uploaded image and identify the plant.
+-   **Detailed Information:** Provides detailed information about the identified plant, including common name, scientific name, trivia, health status, and care instructions.
+-   **Progress Indicator:** Displays a progress indicator during image upload.
+-   **Responsive Design:** The application is designed to be responsive and work well on both desktop and mobile devices.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Technologies Used
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+-   [Next.js](https://nextjs.org/): A React framework for building web applications.
+-   [Tailwind CSS](https://tailwindcss.com/): A utility-first CSS framework for styling the application.
+-   [Gemini API](https://ai.google.dev/): Used for analyzing images and providing plant information.
 
-## Learn More
+## Prerequisites
 
-To learn more about Next.js, take a look at the following resources:
+Before you begin, ensure you have met the following requirements:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+-   [Node.js](https://nodejs.org/) (version 18 or higher)
+-   [npm](https://www.npmjs.com/) or [Yarn](https://yarnpkg.com/) package manager
+-   A Gemini API key. You can obtain one from [Google AI Studio](https://makersuite.google.com/).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Installation
 
-## Deploy on Vercel
+1.  Clone the repository:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    ```
+    git clone [repository-url]
+    cd plant-identifier
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2.  Install dependencies:
+
+    ```
+    npm install
+    # or
+    yarn install
+    ```
+
+3.  Set up environment variables:
+
+    -   Create a `.env.local` file in the root directory.
+    -   Add your Gemini API key:
+
+        ```
+        GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+        ```
+
+## Running the Application
+
+1.  Start the development server:
+
+    ```
+    npm run dev
+    # or
+    yarn dev
+    ```
+
+2.  Open your browser and navigate to `http://localhost:3000`.
+
+## Deployment
+
+To deploy the application to a production environment, you can use platforms like Vercel, Netlify, or AWS. Here's how to deploy to Vercel:
+
+1.  Push your code to a Git repository (e.g., GitHub, GitLab, Bitbucket).
+2.  Import your project into Vercel.
+3.  Add the `GEMINI_API_KEY` environment variable in the Vercel project settings.
+4.  Deploy the project.
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
+
+1.  Fork the repository.
+2.  Create a new branch for your feature or bug fix.
+3.  Make your changes and commit them with descriptive messages.
+4.  Push your changes to your fork.
+5.  Submit a pull request.
+
+## License
+
+[Your License] - e.g., MIT License
+
+## Contact
+
+Sanjeev Kumar
+andigwandi@gmail.com
