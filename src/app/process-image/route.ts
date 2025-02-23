@@ -1,5 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+interface PlantData {
+  common_name?: string;
+  scientific_name?: string;
+  trivia?: string[];
+  health_status?: string;
+  care_instructions?: string[];
+}
+
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
@@ -20,7 +28,7 @@ export async function POST(req: NextRequest) {
     }
     const imageBase64 = btoa(binary);
 
-    const prompt = "Analyze this plant image and provide details including its common name, scientific name, trivia, health status, and care instructions if it's not healthy. if the image is not related to plan, reply by sayin not a valid plant image.";
+    const prompt = "Analyze this plant image and provide details including its common name, scientific name, trivia, health status, and care instructions, do mention if plant is healthy or not. if the image is not related to plan, reply by sayin not a valid plant image. also return the response in json format and dont include json in the response. Remove any asterisk from response data";
     const payload = {
       contents: [{
         parts: [
@@ -53,53 +61,45 @@ export async function POST(req: NextRequest) {
       throw new Error(`Gemini API Error: ${response.status} ${response.statusText}`);
     }
     const data = await response.json();
-    
-    console.log('Data:', data.toString());
 
-    const responseText = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    // Extract the inner JSON string
+    let jsonString = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    jsonString = jsonString.replace(/```json\n/g, '').replace(/```/g, ''); // Remove code block markdown
+
+    console.log("Extracted JSON:", jsonString);
+    // Parse the inner JSON string
+    let plantData: PlantData = {};
 
     try {
-      // PARSING STARTS HERE
-      const plantInfo: { [key: string]: string } = {};
-      const lines = responseText.split('\n');
-
-      console.log('Response:', responseText);
-
-
-      for (let line of lines) {
-        if (line.includes('*')) {
-          line = line.replace('*', '');
-        }
-        if (line.includes(':')) {
-          const [key, value] = line.split(':').map((s: string) => s.trim());
-
-          plantInfo[key] = value;
-        }
-      }
-
-      return NextResponse.json(plantInfo, { status: 200 });
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        console.error(e.message || "Failed to parse response from server.");
+      // Check if jsonString is defined and not null before parsing
+      if (jsonString) {
+        plantData = JSON.parse(jsonString.trim()); // Parse inner JSON
       } else {
-        console.error("Failed to parse Gemini response:", responseText);
+        console.warn("jsonString is undefined or null. Check Gemini API response.");
       }
-      return NextResponse.json({
-        common_name: "Error parsing details.",
-        scientific_name: "Not found",
-        trivia: "Not found",
-        health_status: "Not found",
-        care_instructions: "Not found"
-      }, { status: 200 });
-    }
-  } catch (error: unknown) {
-    console.error('Error processing image:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Internal Server Error';
-    interface CustomError extends Error {
-      status?: number;
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+      return NextResponse.json({ error: "Failed to parse Gemini API response" }, { status: 500 });
     }
 
-    const status = error instanceof Error && 'status' in error ? (error as CustomError).status : 500;
-    return NextResponse.json({ error: errorMessage }, { status });
+    // Remove asterisks from string data
+    if (plantData.common_name) plantData.common_name = plantData.common_name.replace(/\*/g, '').trim();
+    if (plantData.scientific_name) plantData.scientific_name = plantData.scientific_name.replace(/\*/g, '').trim();
+    if (plantData.health_status) plantData.health_status = plantData.health_status.replace(/\*/g, '').trim();
+
+    return NextResponse.json(plantData, { status: 200 });
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      console.error(e.message || "Failed to parse response from server.");
+    } else {
+      console.error("Failed to parse Gemini response");
+    }
+    return NextResponse.json({
+      common_name: "Error parsing details.",
+      scientific_name: "Not found",
+      trivia: "Not found",
+      health_status: "Not found",
+      care_instructions: "Not found"
+    }, { status: 200 });
   }
-}
+} 

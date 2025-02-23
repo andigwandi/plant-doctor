@@ -3,20 +3,26 @@ import Head from 'next/head';
 import { useState } from 'react';
 import ImageUploader from '@/components/ImageUploader';
 
-interface PlantDetails {
-    [key: string]: string;
+interface PlantData {
+    common_name?: string;
+    scientific_name?: string;
+    trivia?: string[] | string;
+    health_status?: string;
+    care_instructions?: string[] | string;
 }
 
 const Home: React.FC = () => {
-    const [plantInfo, setPlantInfo] = useState<PlantDetails | null>(null);
+    const [plantInfo, setPlantInfo] = useState<PlantData | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [uploadProgress, setUploadProgress] = useState<number>(0); // Track upload progress
     const [error, setError] = useState<string | null>(null);
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);  // New state for image URL
 
     const handleImageUpload = async (file: File) => {
         setLoading(true);
         setError(null);
         setUploadProgress(0); // Reset progress
+        setSelectedImage(URL.createObjectURL(file)); // Set the selected image URL
 
         try {
             const formData = new FormData();
@@ -66,6 +72,39 @@ const Home: React.FC = () => {
             setLoading(false);
         }
     };
+    
+    const renderTrivia = (trivia: string[] | string | undefined) => {
+        if (Array.isArray(trivia)) {
+            return (
+                <ul>
+                    {trivia.map((item, index) => (
+                        <li key={index} className="text-gray-600">{item}</li>
+                    ))}
+                </ul>
+            );
+        } else if (typeof trivia === 'string') {
+            return <p className="text-gray-600">{trivia}</p>;
+        } else {
+            return <p className="text-gray-600">No trivia available.</p>;
+        }
+    };
+
+    const renderPlantInstructions = (care_instructions: string[] | string | undefined) => {
+        if (Array.isArray(care_instructions)) {
+            return (
+                <ul>
+                    {care_instructions.map((item, index) => (
+                        <li key={index} className="text-gray-600">{item}</li>
+                    ))}
+                </ul>
+            );
+        } else if (typeof care_instructions ==='string') {
+            return <p className="text-gray-600">{care_instructions}</p>;
+        }
+        else {
+            return <p className="text-gray-600">No care instructions available.</p>;
+        }
+    };
 
     return (
         <div className="bg-gradient-to-br from-green-100 to-green-50 py-8 min-h-screen">
@@ -88,19 +127,38 @@ const Home: React.FC = () => {
                     </div>
                 )}
 
+                {/* Display the selected image */}
+                {selectedImage && (
+                    <div className="mt-4 text-center">
+                        <img src={selectedImage} alt="Uploaded Plant" className="max-w-full h-auto rounded-md shadow-md" />
+                    </div>
+                )}
+
+
                 {plantInfo && (
                     <div className="mt-6">
                         <h2 className="text-xl font-semibold text-green-600 mb-3 text-center">Plant Details:</h2>
-                        {Object.entries(plantInfo).map(([key, value]) => (
-                            <div key={key} className="mb-2">
-                                <strong className="text-gray-700">{key}:</strong>
-                                <p className="text-gray-600">{value}</p>
+                        {plantInfo.common_name && <p><strong className="text-gray-700">Common Name:</strong> {plantInfo.common_name}</p>}
+                        {plantInfo.scientific_name && <p><strong className="text-gray-700">Scientific Name:</strong> {plantInfo.scientific_name}</p>}
+                        {plantInfo.health_status && <p><strong className="text-gray-700">Health Status:</strong> {plantInfo.health_status}</p>}
+
+                        {plantInfo.trivia && (
+                            <div>
+                                <strong className="text-gray-700">Trivia:</strong>
+                                {renderTrivia(plantInfo.trivia)}
                             </div>
-                        ))}
+                        )}
+
+                        {plantInfo.care_instructions && (
+                            <div>
+                                <strong className="text-gray-700">Care Instructions:</strong>
+                                {renderPlantInstructions(plantInfo.care_instructions)}
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
-        </div>
+        </div >
     );
 };
 
