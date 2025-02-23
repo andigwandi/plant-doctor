@@ -139,20 +139,20 @@ const Home: React.FC = () => {
                 {plantInfo && (
                     <div className="mt-6">
                         <h2 className="text-xl font-semibold text-green-600 mb-3 text-center">Plant Details:</h2>
-                        {plantInfo.common_name && <p><strong className="text-gray-700 mb-3 ">Common Name:</strong> {plantInfo.common_name}</p>}
-                        {plantInfo.scientific_name && <p><strong className="text-gray-700 mb-3 ">Scientific Name:</strong> {plantInfo.scientific_name}</p>}
-                        {plantInfo.health_status && <p><strong className="text-gray-700 mb-3 ">Health Status:</strong> {plantInfo.health_status}</p>}
+                        {plantInfo.common_name && <p><strong className="text-gray-700">Common Name:</strong> {plantInfo.common_name}</p>}
+                        {plantInfo.scientific_name && <p><strong className="text-gray-700">Scientific Name:</strong> {plantInfo.scientific_name}</p>}
+                        {plantInfo.health_status && <p><strong className="text-gray-700">Health Status:</strong> {plantInfo.health_status}</p>}
 
                         {plantInfo.trivia && (
                             <div>
-                                <strong className="text-gray-700 mb-3 ">Trivia:</strong>
+                                <strong className="text-gray-700">Trivia:</strong>
                                 {renderTrivia(plantInfo.trivia)}
                             </div>
                         )}
 
                         {plantInfo.care_instructions && (
                             <div>
-                                <strong className="text-gray-700 mb-3 ">Care Instructions:</strong>
+                                <strong className="text-gray-700">Care Instructions:</strong>
                                 {renderPlantInstructions(plantInfo.care_instructions)}
                             </div>
                         )}
