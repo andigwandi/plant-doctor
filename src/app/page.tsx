@@ -1,6 +1,7 @@
 "use client";
 import Head from 'next/head';
 import { useState } from 'react';
+import Image from 'next/image';
 import ImageUploader from '@/components/ImageUploader';
 
 interface PlantData {
@@ -130,7 +131,7 @@ const Home: React.FC = () => {
 
                 {/* Display the selected image */}
                 {selectedImage && (
-                    <div className="mt-4 text-center">
+                        <Image src={selectedImage} alt="Uploaded Plant" className="max-w-full h-auto rounded-md shadow-md" width={500} height={500} />
                         <img src={selectedImage} alt="Uploaded Plant" className="max-w-full h-auto rounded-md shadow-md" />
                     </div>
                 )}
