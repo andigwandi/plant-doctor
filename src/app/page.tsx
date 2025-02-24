@@ -131,8 +131,8 @@ const Home: React.FC = () => {
 
                 {/* Display the selected image */}
                 {selectedImage && (
+                    <div className="mt-6">
                         <Image src={selectedImage} alt="Uploaded Plant" className="max-w-full h-auto rounded-md shadow-md" width={500} height={500} />
-                        <img src={selectedImage} alt="Uploaded Plant" className="max-w-full h-auto rounded-md shadow-md" />
                     </div>
                 )}
 
