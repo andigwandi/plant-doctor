@@ -84,9 +84,9 @@ const Home: React.FC = () => {
                 </ul>
             );
         } else if (typeof trivia === 'string') {
-            return <p className="text-gray-600">{trivia}</p>;
+            return <p className="pb-2">{trivia}</p>;
         } else {
-            return <p className="text-gray-600">No trivia available.</p>;
+            return <p className="pb-2">No trivia available.</p>;
         }
     };
 
@@ -95,15 +95,15 @@ const Home: React.FC = () => {
             return (
                 <ul>
                     {care_instructions.map((item, index) => (
-                        <li key={index} className="text-gray-600">{item}</li>
+                        <li key={index} className="pb-2">{item}</li>
                     ))}
                 </ul>
             );
         } else if (typeof care_instructions ==='string') {
-            return <p className="text-gray-600">{care_instructions}</p>;
+            return <p className="pb-2">{care_instructions}</p>;
         }
         else {
-            return <p className="text-gray-600">No care instructions available.</p>;
+            return <p className="pb-2">No care instructions available.</p>;
         }
     };
 
@@ -139,10 +139,10 @@ const Home: React.FC = () => {
 
                 {plantInfo && (
                     <div className="mt-6">
-                        <h2 className="text-xl font-semibold text-green-600 mb-3 text-center">Plant Details:</h2>
-                        {plantInfo.common_name && <p><strong className="text-gray-700">Common Name:</strong> {plantInfo.common_name}</p>}
-                        {plantInfo.scientific_name && <p><strong className="text-gray-700">Scientific Name:</strong> {plantInfo.scientific_name}</p>}
-                        {plantInfo.health_status && <p><strong className="text-gray-700">Health Status:</strong> {plantInfo.health_status}</p>}
+                        <h2 className="text-xl font-semibold text-green-600 mb-3 text-center">Plant Details</h2>
+                        {plantInfo.common_name && <p className="pb-2"><strong className="text-gray-700">Common Name:</strong> {plantInfo.common_name}</p>}
+                        {plantInfo.scientific_name && <p className="pb-2"><strong className="text-gray-700">Scientific Name:</strong> {plantInfo.scientific_name}</p>}
+                        {plantInfo.health_status && <p className="pb-2"><strong className="text-gray-700">Health Status:</strong> {plantInfo.health_status}</p>}
 
                         {plantInfo.trivia && (
                             <div>
